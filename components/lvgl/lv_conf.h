@@ -23,22 +23,8 @@
  *====================*/
 
 /* Maximal horizontal and vertical resolution to support by the library.*/
-#if defined (CONFIG_LVGL_PREDEFINED_DISPLAY_NONE) && defined (CONFIG_LVGL_DISPLAY_ORIENTATION_PORTRAIT)
-    #define LV_VER_RES_MAX          (CONFIG_LVGL_DISPLAY_WIDTH)
-    #define LV_HOR_RES_MAX          (CONFIG_LVGL_DISPLAY_HEIGHT)
-#elif defined (CONFIG_LVGL_PREDEFINED_DISPLAY_NONE) && defined (CONFIG_LVGL_DISPLAY_ORIENTATION_PORTRAIT_INVERTED)
-    #define LV_VER_RES_MAX          (CONFIG_LVGL_DISPLAY_WIDTH)
-    #define LV_HOR_RES_MAX          (CONFIG_LVGL_DISPLAY_HEIGHT)
-#elif defined (CONFIG_LVGL_PREDEFINED_DISPLAY_NONE) && defined (CONFIG_LVGL_DISPLAY_ORIENTATION_LANDSCAPE)
-    #define LV_HOR_RES_MAX          (CONFIG_LVGL_DISPLAY_WIDTH)
-    #define LV_VER_RES_MAX          (CONFIG_LVGL_DISPLAY_HEIGHT)
-#elif defined (CONFIG_LVGL_PREDEFINED_DISPLAY_NONE) && defined (CONFIG_LVGL_DISPLAY_ORIENTATION_LANDSCAPE_INVERTED)
-    #define LV_HOR_RES_MAX          (CONFIG_LVGL_DISPLAY_WIDTH)
-    #define LV_VER_RES_MAX          (CONFIG_LVGL_DISPLAY_HEIGHT)
-#else
-    #define LV_HOR_RES_MAX          (CONFIG_LVGL_DISPLAY_WIDTH)
-    #define LV_VER_RES_MAX          (CONFIG_LVGL_DISPLAY_HEIGHT)
-#endif
+#define LV_HOR_RES_MAX          (CONFIG_LVGL_DISPLAY_WIDTH)
+#define LV_VER_RES_MAX          (CONFIG_LVGL_DISPLAY_HEIGHT)
 
 /* Color depth:
  * - 1:  1 byte per pixel
@@ -46,13 +32,7 @@
  * - 16: RGB565
  * - 32: ARGB8888
  */
-
-#if defined CONFIG_LVGL_TFT_DISPLAY_MONOCHROME
-/* For the monochrome display controller, e.g. SSD1306 and SH1107, use a color depth of 1. */
-#define LV_COLOR_DEPTH     1
-#else
 #define LV_COLOR_DEPTH     16
-#endif
 
 /* Swap the 2 bytes of RGB565 color.
  * Useful if the display has a 8 bit interface (e.g. SPI)*/
@@ -112,7 +92,7 @@ typedef int16_t lv_coord_t;
 #define LV_MEM_CUSTOM      0
 #if LV_MEM_CUSTOM == 0
 /* Size of the memory used by `lv_mem_alloc` in bytes (>= 2kB)*/
-#  define LV_MEM_SIZE    ( CONFIG_LVGL_MEM_SIZE * 1024 )
+#  define LV_MEM_SIZE    (24U * 1024U)
 
 /* Complier prefix for a big array declaration */
 #  define LV_MEM_ATTR
@@ -152,7 +132,7 @@ typedef int16_t lv_coord_t;
 #define LV_INDEV_DEF_DRAG_LIMIT           10
 
 /* Drag throw slow-down in [%]. Greater value -> faster slow-down */
-#define LV_INDEV_DEF_DRAG_THROW           20
+#define LV_INDEV_DEF_DRAG_THROW           85
 
 /* Long press time in milliseconds.
  * Time to send `LV_EVENT_LONG_PRESSSED`) */
@@ -195,7 +175,7 @@ typedef void * lv_fs_drv_user_data_t;
 #endif
 
 /*1: Add a `user_data` to drivers and objects*/
-#define LV_USE_USER_DATA        0
+#define LV_USE_USER_DATA        1
 
 /*========================
  * Image decoder and cache
@@ -319,16 +299,17 @@ typedef void * lv_indev_drv_user_data_t;            /*Type of user data in the i
 /*================
  *  THEME USAGE
  *================*/
-#define LV_THEME_LIVE_UPDATE    CONFIG_LVGL_THEME_LIVE_UPDATE   /*1: Allow theme switching at run time. Uses 8..10 kB of RAM*/
+#define LV_THEME_LIVE_UPDATE    0   /*1: Allow theme switching at run time. Uses 8..10 kB of RAM*/
 
-#define LV_USE_THEME_TEMPL      CONFIG_LVGL_THEME_TEMPL     /*Just for test*/
-#define LV_USE_THEME_DEFAULT    CONFIG_LVGL_THEME_DEFAULT   /*Built mainly from the built-in styles. Consumes very few RAM*/
-#define LV_USE_THEME_ALIEN      CONFIG_LVGL_THEME_ALIEN     /*Dark futuristic theme*/
-#define LV_USE_THEME_NIGHT      CONFIG_LVGL_THEME_NIGHT     /*Dark elegant theme*/
-#define LV_USE_THEME_MONO       CONFIG_LVGL_THEME_MONO      /*Mono color theme for monochrome displays*/
-#define LV_USE_THEME_MATERIAL   CONFIG_LVGL_THEME_MATERIAL  /*Flat theme with bold colors and light shadows*/
-#define LV_USE_THEME_ZEN        CONFIG_LVGL_THEME_ZEN       /*Peaceful, mainly light theme */
-#define LV_USE_THEME_NEMO       CONFIG_LVGL_THEME_NEMO      /*Water-like theme based on the movie "Finding Nemo"*/
+#define LV_USE_THEME_TEMPL      0   /*Just for test*/
+#define LV_USE_THEME_DEFAULT    0   /*Built mainly from the built-in styles. Consumes very few RAM*/
+#define LV_USE_THEME_ALIEN      0   /*Dark futuristic theme*/
+#define LV_USE_THEME_NIGHT      0   /*Dark elegant theme*/
+#define LV_USE_THEME_MONO       0   /*Mono color theme for monochrome displays*/
+#define LV_USE_THEME_MATERIAL   0   /*Flat theme with bold colors and light shadows*/
+#define LV_USE_THEME_ZEN        0   /*Peaceful, mainly light theme */
+#define LV_USE_THEME_NEMO       0   /*Water-like theme based on the movie "Finding Nemo"*/
+#define LV_USE_THEME_REP_PANEL_DARK 1
 
 /*==================
  *    FONT USAGE
@@ -342,10 +323,10 @@ typedef void * lv_indev_drv_user_data_t;            /*Type of user data in the i
 
 /* Robot fonts with bpp = 4
  * https://fonts.google.com/specimen/Roboto  */
-#define LV_FONT_ROBOTO_12    CONFIG_LVGL_FONT_ROBOTO12
-#define LV_FONT_ROBOTO_16    CONFIG_LVGL_FONT_ROBOTO16
-#define LV_FONT_ROBOTO_22    CONFIG_LVGL_FONT_ROBOTO22
-#define LV_FONT_ROBOTO_28    CONFIG_LVGL_FONT_ROBOTO28
+#define LV_FONT_ROBOTO_12    0
+#define LV_FONT_ROBOTO_16    1
+#define LV_FONT_ROBOTO_22    0
+#define LV_FONT_ROBOTO_28    1
 
 /* Demonstrate special features */
 #define LV_FONT_ROBOTO_12_SUBPX 0
@@ -353,30 +334,18 @@ typedef void * lv_indev_drv_user_data_t;            /*Type of user data in the i
 
 /*Pixel perfect monospace font
  * http://pelulamu.net/unscii/ */
-#define LV_FONT_UNSCII_8     CONFIG_LVGL_FONT_UNSCII8
+#define LV_FONT_UNSCII_8     0
 
-/* Optionally declare your custom fonts here.
- * You can use these fonts as default font too
- * and they will be available globally. E.g.
- * #define LV_FONT_CUSTOM_DECLARE LV_FONT_DECLARE(my_font_1) \
- *                                LV_FONT_DECLARE(my_font_2)
- */
-#define LV_FONT_CUSTOM_DECLARE
+#define LV_FONT_CUSTOM_DECLARE  LV_FONT_DECLARE(reppanel_font_roboto_bold_16) \
+                                LV_FONT_DECLARE(reppanel_font_roboto_bold_18) \
+                                LV_FONT_DECLARE(reppanel_font_roboto_bold_24) \
+                                LV_FONT_DECLARE(reppanel_font_roboto_regular_26) \
+                                LV_FONT_DECLARE(reppanel_font_roboto_light_26) \
+                                LV_FONT_DECLARE(reppanel_font_roboto_thin_numeric_160) \
+                                LV_FONT_DECLARE(reppanel_font_roboto_regular_percent_40)
 
 /*Always set a default font from the built-in fonts*/
-#if CONFIG_LVGL_DEFAULT_FONT_ROBOTO12 == 1
-#define LV_FONT_DEFAULT        &lv_font_roboto_12
-#elif CONFIG_LVGL_DEFAULT_FONT_ROBOTO16 == 1
 #define LV_FONT_DEFAULT        &lv_font_roboto_16
-#elif CONFIG_LVGL_DEFAULT_FONT_ROBOTO22 == 1
-#define LV_FONT_DEFAULT        &lv_font_roboto_22
-#elif CONFIG_LVGL_DEFAULT_FONT_ROBOTO28 == 1
-#define LV_FONT_DEFAULT        &lv_font_roboto_28
-#elif CONFIG_LVGL_DEFAULT_FONT_UNSCII8 == 1
-#define LV_FONT_DEFAULT        &lv_font_unscii_8
-#else
-#error "Choose a default built-in font"
-#endif
 
 /* Enable it if you have fonts with a lot of characters.
  * The limit depends on the font size, font face and bpp
@@ -403,7 +372,7 @@ typedef void * lv_font_user_data_t;
  * */
 #define LV_TXT_ENC LV_TXT_ENC_UTF8
 
- /*Can break (wrap) texts on these chars*/
+/*Can break (wrap) texts on these chars*/
 #define LV_TXT_BREAK_CHARS                  " ,.;:-_"
 
 /* If a word is at least this long, will break wherever "prettiest"
@@ -507,7 +476,7 @@ typedef void * lv_obj_user_data_t;
 #define LV_USE_DDLIST    1
 #if LV_USE_DDLIST != 0
 /*Open and close default animation time [ms] (0: no animation)*/
-#  define LV_DDLIST_DEF_ANIM_TIME     200
+#  define LV_DDLIST_DEF_ANIM_TIME     100
 #endif
 
 /*Gauge (dependencies:lv_bar, lv_lmeter)*/
@@ -565,7 +534,7 @@ typedef void * lv_obj_user_data_t;
 #define LV_USE_PAGE     1
 #if LV_USE_PAGE != 0
 /*Focus default animation time [ms] (0: no animation)*/
-#  define LV_PAGE_DEF_ANIM_TIME     400
+#  define LV_PAGE_DEF_ANIM_TIME     300
 #endif
 
 /*Preload (dependencies: lv_arc, lv_anim)*/
